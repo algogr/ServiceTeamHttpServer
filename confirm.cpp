@@ -10,7 +10,7 @@ void Confirm::service(HttpRequest &request, HttpResponse &response,QSqlDatabase*
 {
     QString requestid=request.getParameter("RQID");
     qDebug()<<"RQID:"<<requestid;
-    QString query="UPDATE request set isconfirmed=1 where requestid="+requestid;
+    QString query="UPDATE cccrequest set isconfirmed=1 where requestid="+requestid;
     qDebug()<<query;
     QSqlQuery qry(*db);
     qry.exec(query);

@@ -13,7 +13,7 @@ void OriginatorList::service(HttpRequest &request, HttpResponse &response, QSqlD
 
 
     response.setHeader("Content-Type", "application/json; charset=UTF-8");
-    QString query="select erpid,name,email from originator";
+    QString query="select ccceteria,name,'' from ccceteria";
     qry.exec(query);
 
 

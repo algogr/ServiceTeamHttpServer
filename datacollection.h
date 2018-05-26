@@ -11,7 +11,7 @@ class DataCollection : public HttpRequestHandler
     Q_OBJECT
 public:
     DataCollection(QObject* parent=nullptr);
-    void service(HttpRequest& request, HttpResponse& response,QSqlDatabase* ldb,QSqlDatabase* rdb);
+    void service(HttpRequest& request, HttpResponse& response,QSqlDatabase* db);
 };
 
 #endif // DATACOLLECTION_H

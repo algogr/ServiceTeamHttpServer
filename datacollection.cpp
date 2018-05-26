@@ -11,7 +11,7 @@ DataCollection::DataCollection(QObject* parent)
 
 
 
-void DataCollection::service(HttpRequest &request, HttpResponse &response,QSqlDatabase* ldb,QSqlDatabase* rdb)
+void DataCollection::service(HttpRequest &request, HttpResponse &response,QSqlDatabase* ldb)
 {
 
 
@@ -27,7 +27,7 @@ void DataCollection::service(HttpRequest &request, HttpResponse &response,QSqlDa
     qDebug()<<"Array sixe:"<<json_array.size();
     QByteArray requestid;
     QByteArray uid;
-    QSqlQuery qry1(*ldb),qry2(*rdb);
+    QSqlQuery qry1(*db),qry2(*db);
 
     for (int i=0;i<json_array.count();++i)
     {
@@ -36,17 +36,17 @@ void DataCollection::service(HttpRequest &request, HttpResponse &response,QSqlDa
         qDebug()<<map;
         requestid=map["requestid"].toByteArray();
         uid=map["techid"].toByteArray();
-        QString query="select id from technician where username='"+uid+"'";
+        QString query="select ccctechnician from ccctechnician where username='"+uid+"'";
         qry1.exec(query);
         qry1.next();
         QString techid=qry1.value(0).toString();
 
 
-        query="UPDATE ticket SET status="+map["status"].toString()+",techid="+techid+\
-                ",version="+map["version"].toString()+",lastchangeuser="+techid+",ischanged="+map["ischanged"].toString()+",lastchangeddatetime=NOW(),newappointmentdate='"+map["newappointmentdate"].toString()+"' WHERE id="+map["mysqlid"].toString();
+        query="UPDATE findoc SET ccckatastash="+map["status"].toString()+",ccctechnician="+techid+\
+                ",cccversion="+map["version"].toString()+",ccclastchangeuser="+techid+",cccischanged="+map["ischanged"].toString()+",ccclastchangeddatetime=NOW(),cccnewappointmentdate='"+map["newappointmentdate"].toString()+"' WHERE findoc="+map["mysqlid"].toString();
         qry1.exec(query);
         qDebug()<<query;
-        query="INSERT INTO visitdetails\
+        query="INSERT INTO cccvisitdetails\
                 (ticketid,imagepath,breakdownid,comments,oldserial,newserial,\
                  meas1,\
                  meas2,\
@@ -689,13 +689,13 @@ void DataCollection::service(HttpRequest &request, HttpResponse &response,QSqlDa
                 map["stoid"].toString()+")";
         qDebug()<<query;
         qry1.exec(query);
-
-        query="select incident,cusid from ticket where id"+map["mysqlid"].toString();
+///edv
+        query="select fincode,trdr from findoc where findoc="+map["mysqlid"].toString();
         qry1.exec(query);
         qry1.next();
-        QString findoc=qry1.value(0).toString();
+        QString fincode=qry1.value(0).toString();
 
-        query="UPDATE findoc set status="+map["status"].toString()+" where findoc="+findoc;
+        query="UPDATE findoc set status="+map["status"].toString()+" where findoc="+map["mysqlid"].toString();
         qry2.exec(query);
         query="select code from trdr where trdr="+qry1.value(1).toString();
         qry2.exec(query);
@@ -723,11 +723,11 @@ void DataCollection::service(HttpRequest &request, HttpResponse &response,QSqlDa
         QString dep=settings->value("depdocseries").toString();
         QString trndate=QDate::currentDate().toString("yyyy-MM-dd");
         delete settings;
-        query="INSERT INTO (ccccuscode,cccitecode,ccctrndate,cccseries,cccserialnumber,cccstoid,isins) VALUES ('"+cuscode+"','"+newserialmtrlcode+"','"+trndate+"',"+dap+\
+        query="INSERT INTO ccctempdeltia (ccccuscode,cccitecode,ccctrndate,cccseries,cccserialnumber,cccstoid,isins) VALUES ('"+cuscode+"','"+newserialmtrlcode+"','"+trndate+"',"+dap+\
                 ",'"+map["newserial"].toString()+"',"+map["stoid"].toString()+",0)";
 
         qry2.exec(query);
-        query="INSERT INTO (ccccuscode,cccitecode,ccctrndate,cccseries,cccserialnumber,cccstoid,isins) VALUES ('"+cuscode+"','"+oldserialmtrlcode+"','"+trndate+"',"+dep+\
+        query="INSERT INTO ccctempdeltia (ccccuscode,cccitecode,ccctrndate,cccseries,cccserialnumber,cccstoid,isins) VALUES ('"+cuscode+"','"+oldserialmtrlcode+"','"+trndate+"',"+dep+\
                 ",'"+map["oldserial"].toString()+"',"+map["stoid"].toString()+",0)";
 
         qry2.exec(query);

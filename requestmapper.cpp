@@ -12,8 +12,8 @@
 
 
 
-RequestMapper::RequestMapper(QObject* parent,QSqlDatabase* ldb,QSqlDatabase* rdb)
-: HttpRequestHandler(parent),m_ldb(ldb),m_rdb(rdb)
+RequestMapper::RequestMapper(QObject* parent,QSqlDatabase* db)
+: HttpRequestHandler(parent),m_db(db)
 {
 
 
@@ -26,35 +26,35 @@ void RequestMapper::service(HttpRequest &request, HttpResponse &response)
 
 
         if (path=="/list") {
-            ListDataController().service(request, response,m_ldb);
+            ListDataController().service(request, response,m_db);
         }
         else if (path=="/upload") {
-            DataCollection().service(request, response,m_ldb,m_rdb);
+            DataCollection().service(request, response,m_ldb,m_db);
         }
 
         else if (path=="/confirm") {
-            Confirm().service(request, response,m_ldb);
+            Confirm().service(request, response,m_db);
         }
 
         else if (path=="/doclist") {
-            DocList().service(request, response,m_ldb);
+            DocList().service(request, response,m_db);
         }
 
         else if (path=="/docsconfirm") {
-            DocsConfirm().service(request, response,m_ldb,m_rdb);
+            DocsConfirm().service(request, response,m_db);
         }
 
 
         else if (path=="/breakdowns")
         {
-            BreakdownList().service(request,response,m_ldb);
+            BreakdownList().service(request,response,m_db);
 
         }
 
         else if (path=="/originators")
         {
 
-            OriginatorList().service(request,response,m_ldb);
+            OriginatorList().service(request,response,m_db);
         }
         else {
             response.setStatus(404,"Not found");

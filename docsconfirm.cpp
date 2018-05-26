@@ -7,7 +7,7 @@ DocsConfirm::DocsConfirm(QObject *parent):HttpRequestHandler(parent)
 
 }
 
-void DocsConfirm::service(HttpRequest &request, HttpResponse &response,QSqlDatabase* ldb,QSqlDatabase* rdb)
+void DocsConfirm::service(HttpRequest &request, HttpResponse &response,QSqlDatabase* db)
 {
     qDebug()<<"AID"<<request.getParameter("jsondata");
 
@@ -35,7 +35,7 @@ void DocsConfirm::service(HttpRequest &request, HttpResponse &response,QSqlDatab
         QJsonObject obj=json_array.at(i).toObject();
         QVariantMap map=obj.toVariantMap();
         QJsonObject json;
-        QString query="UPDATE docconfirm set status="+map["status"].toString()+" where erpid="+map["erpid"].toString();
+        QString query="UPDATE cccdocconfirm set status="+map["status"].toString()+" where findoc="+map["erpid"].toString();
         qry.exec(query);
         qDebug()<<query;
         query="UPDATE findoc set finstates="+map["status"].toString()+" where findoc="+map["erpid"].toString();

@@ -13,7 +13,7 @@ void BreakdownList::service(HttpRequest &request, HttpResponse &response, QSqlDa
 
 
     response.setHeader("Content-Type", "application/json; charset=UTF-8");
-    QString query="select b.code bcode,b.description bdescription,o.erpid oerpid from breakdown b,originator o where b.originatorid=o.id";
+    QString query="select b.code bcode,b.description bdescription,o.ccceteria oerpid from cccbreakdown b,ccceteria o where b.originatorid=o.ccceteria";
     qDebug()<<qry.size()<<query;
 
     qry.exec(query);

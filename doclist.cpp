@@ -13,8 +13,8 @@ void DocList::service(HttpRequest &request, HttpResponse &response, QSqlDatabase
 
 
     response.setHeader("Content-Type", "application/json; charset=UTF-8");
-    QString query="select trndate,ax1,ax2,descrax1,descrax2,status,erpid,series,fincode from \
-    docconfirm where ax2="+aid+" and status=1";
+    QString query="select trndate,ax1,ax2,descrax1,descrax2,status,findoc,series,fincode from \
+    cccdocconfirm where ax2="+aid+" and status=1";
 
 
     qry.exec(query);

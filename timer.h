@@ -13,34 +13,25 @@ class Timer : public QTimer
 
 
 public:
-    enum RequestTypes
-          {
-             Docs,
-             Technicians,
-             Tickets
-          };
+
 
     Timer(int timeout);
 
-    QSqlDatabase *ldb() const;
-    void setLdb(QSqlDatabase *ldb);
 
-    QSqlDatabase *rdb() const;
-    void setRdb(QSqlDatabase *rdb);
+    QSqlDatabase *db() const;
+    void setDb(QSqlDatabase *db);
 
-    RequestTypes type() const;
-    void setType(const RequestTypes &type);
+
 
     void start();
 public slots:
     void timeoutdocs();
-    void timeouttechnicians();
-    void timeouttickets();
+
 
 private:
     int m_timeout;
-    QSqlDatabase *m_ldb,*m_rdb;
-    RequestTypes m_type;
+    QSqlDatabase *m_db;
+
     //QString m_lServerIp,m_lServerPort,m_serv,m_rServerIp,m_rServerPort;
     //QString m_lUser,m_lPassword,m_rUser,m_rPassword;
 };

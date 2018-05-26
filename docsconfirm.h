@@ -12,7 +12,7 @@ class DocsConfirm: public HttpRequestHandler
 public:
 
     explicit DocsConfirm(QObject* parent=nullptr);
-    void service(HttpRequest &request,HttpResponse& response,QSqlDatabase* mdb,QSqlDatabase* rdb);
+    void service(HttpRequest &request,HttpResponse& response,QSqlDatabase* db);
 };
 
 #endif // DOCSCONFIRM_H
